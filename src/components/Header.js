@@ -11,7 +11,7 @@ const Header = () => {
     // Subscribing to the stoe using selector
     const cartItems = useSelector((store) => store.cart.items);
     return (
-        <div className="flex justify-between items-center sticky top-0 w-full shadow-md px-8 my-8 bg-white z-10">
+        <div className="flex justify-between items-center sticky top-0 w-full shadow-md px-8 bg-white z-10">
             <a className="logo">
                 <img className="w-12" src={LOGO_URL} />
             </a>
