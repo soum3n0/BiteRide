@@ -24,7 +24,7 @@ const Cart = () => {
         <div className="p-6">
             <h2 className="text-2xl font-bold text-center">Cart</h2>
             {cartItems.length === 0 ? (
-                <p className="text-gray-600 text-center">Your cart is empty.</p>
+                <p className="text-gray-600 text-center mb-40">Your cart is empty.</p>
             ) : (
                 <>
                     <button onClick={clearCartHandle} className="bg-red-500 px-4 py-2 rounded-md text-white mt-3">

@@ -2,8 +2,8 @@ import { CDN_URL } from "../utils/constants";
 import { MdStars } from "react-icons/md";
 
 const Cards = (props) => {
-    // const {name,rating} = props;
     const { resData } = props;
+
     return (
         <div className="p-4">
             <div className="h-[182px] w-[273px] rounded-lg overflow-hidden relative">

@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useState } from "react";
+import React, { lazy, Suspense, useState, useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import Header from "./components/Header";
 import Body from "./components/Body";
@@ -12,6 +12,7 @@ import { Provider } from "react-redux";
 import appStore from "./utils/appStore";
 import Cart from "./components/Cart";
 import Footer from "./components/Footer";
+import { useLocation } from "react-router-dom";
 
 const Grocery = lazy(() => import("./components/Grocery"));
 
@@ -20,6 +21,12 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 
 const AppLayout = () => {
     const [userName, setUserName] = useState("elonmusk");
+    const location = useLocation();
+
+    useEffect(() => {
+      window.scrollTo(0, 0);
+    }, [location.pathname]);
+
     return (
         <Provider store={appStore}>
             <MyContext.Provider value={{ username: userName, setUserName }}>

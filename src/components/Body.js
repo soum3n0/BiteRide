@@ -1,24 +1,31 @@
 import Cards from "./Cards";
-// import { bannerList, resList } from "../utils/mockData";
 import Banner from "./Banner";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { API } from "../utils/constants";
 import Shimmer from "./Shimmer";
 import useOnlineStatus from "../utils/useOnlineStatus";
-import MyContext from "../utils/MyContext";
 import HorizontalCards from "./HorizontalCard";
 import { FaArrowRight, FaArrowLeft } from "react-icons/fa6";
+import { useDispatch, useSelector } from "react-redux";
+import { updateRestaurants, updateBanners } from "../utils/restaurantSlice";
 
 const Body = () => {
-    const [listOfRestaurants, setListOfRestaurants] = useState([]);
-    const [filteredList, setFilteredList] = useState([]);
-    const [listOfBanners, setListOfBanners] = useState([]);
+    const dispatch = useDispatch();
+    const listOfRestaurants = useSelector(
+        (state) => state.restaurantData.restaurants
+    );
+    const listOfBanners = useSelector((state) => state.restaurantData.banners);
+    const [filteredList, setFilteredList] = useState(listOfRestaurants);
     const [slide, setSlide] = useState(0);
     const [isMediumScreen, setIsMediumScreen] = useState(false);
-    // const data = useContext(MyContext);
+
     useEffect(() => {
-        fetchData();
+        if (listOfRestaurants.length === 0) {
+            fetchData();
+        } else {
+            setFilteredList(listOfRestaurants);
+        }
         const checkScreenSize = () => {
             setIsMediumScreen(window.innerWidth >= 768); // Tailwind's md breakpoint is 768px
         };
@@ -58,16 +65,16 @@ const Body = () => {
             },
         });
         const json = await data.json();
-        console.log(json);
+        
         const restaurant =
             json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle
                 ?.restaurants || [];
         const banner =
             json?.data?.cards[0]?.card?.card?.gridElements?.infoWithStyle
                 ?.info || [];
-        setListOfRestaurants(restaurant);
+        dispatch(updateRestaurants(restaurant));
+        dispatch(updateBanners(banner));
         setFilteredList(restaurant);
-        setListOfBanners(banner);
     };
 
     if (useOnlineStatus() === false) {
@@ -78,7 +85,6 @@ const Body = () => {
         return <Shimmer />;
     }
 
-    // console.log(listOfRestaurants);
     return (
         <div className="p-12 mx-8">
             <div>
